@@ -55,6 +55,10 @@ import model.Tiket;
 import model.Transaksi;
 import service.BookingService;
 
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import java.io.File;
+
 public class MainFrame extends JFrame {
     private static final String PAGE_LOGIN = "LOGIN";
     private static final String PAGE_BOOKING = "BOOKING";
@@ -192,10 +196,10 @@ public class MainFrame extends JFrame {
         card.setPreferredSize(new Dimension(440, 520));
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
 
-        JLabel title = createTitleLabel("Tarung Bogor Ticketing", 30);
+       JLabel title = createLogoLabel("src/assets/logo.png", 90, 90);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel subtitle = createMutedLabel("Premium event boxing ticketing");
+        JLabel subtitle = createMutedLabel("Tarung Bogor Ticketing");
         subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton guestButton = createPrimaryButton("Continue as Guest");
@@ -240,7 +244,7 @@ public class MainFrame extends JFrame {
     private JPanel createBookingPage() {
         JPanel page = createPagePanel();
         page.setLayout(new BorderLayout(20, 20));
-        page.add(createTopBar("User Booking", "Pilih tiket, cek stok, lalu lanjut ke review pesanan.", true), BorderLayout.NORTH);
+        page.add(createTopBar("Booking Ticket", "Pilih tiket, cek stok, lalu lanjut ke review pesanan.", true), BorderLayout.NORTH);
 
         JPanel content = new JPanel(new BorderLayout(20, 0));
         content.setOpaque(false);
@@ -383,7 +387,7 @@ public class MainFrame extends JFrame {
     private JPanel createPaymentPage() {
         JPanel page = createPagePanel();
         page.setLayout(new BorderLayout(20, 20));
-        page.add(createTopBar("Payment Simulation", "Simulasi pembayaran saja, tanpa payment gateway asli.", false), BorderLayout.NORTH);
+        page.add(createTopBar("Payment", "Simulasi pembayaran saja, tanpa payment gateway asli.", false), BorderLayout.NORTH);
 
         JPanel card = createPanelCard();
         card.setLayout(new BorderLayout(0, 22));
@@ -1396,4 +1400,26 @@ public class MainFrame extends JFrame {
             }
         }
     }
+
+    private JLabel createLogoLabel(String imagePath, int width, int height) {
+    File logoFile = new File(imagePath);
+
+    if (!logoFile.exists()) {
+        System.out.println("Logo tidak ditemukan di path: " + logoFile.getAbsolutePath());
+        return createTitleLabel("LOGO NOT FOUND", 24);
+    }
+
+    ImageIcon originalIcon = new ImageIcon(logoFile.getAbsolutePath());
+
+    Image scaledImage = originalIcon.getImage().getScaledInstance(
+            width,
+            height,
+            Image.SCALE_SMOOTH
+    );
+
+    JLabel logoLabel = new JLabel(new ImageIcon(scaledImage));
+    logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+    return logoLabel;
+}
 }
